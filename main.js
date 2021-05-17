@@ -18,6 +18,11 @@ $(document).ready(function () {
 	$("#run_W").on("click", function (event) {
 		ball("W", 0);
 	});
+    
+	$("#scoreboard-btn").on("click", function (event) {
+        $("#scoreboard").html(scoreboard.toString());        
+	});
+
 
 	function ball(run, score = 1) {
 		if (score == 1) {
