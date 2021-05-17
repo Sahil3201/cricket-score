@@ -1,0 +1,21 @@
+html,
+body {
+	margin: 0px;
+	height: 100%;
+}
+
+button {
+	width: 33%;
+}
+
+.center {
+	margin: auto;
+	width: 100%;
+	border: 3px solid green;
+	padding: 10px;
+}
+
+.btn-custom {
+	display: inline-block;
+	width: 100%;
+}
