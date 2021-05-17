@@ -45,7 +45,7 @@ $(document).ready(function () {
 				$("#ball_no_" + i.toString()).addClass("btn-light");
 			}
 		}
-        $("#over-ball").html(parseInt((scoreboard.length) / 6) + ((scoreboard.length) % 6)/10);
+        $("#over-ball").html((parseInt((scoreboard.length) / 6) + ((scoreboard.length) % 6)/10).toFixed(1));
 	}
 });
 
