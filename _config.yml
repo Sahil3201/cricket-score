@@ -1,1 +1,7 @@
+title: cricket score counter
+description: A cricket score counter to reduce human effort while counting runs in a cricket match.
+
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
 theme: jekyll-theme-cayman
