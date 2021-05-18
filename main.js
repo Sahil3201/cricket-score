@@ -1,92 +1,127 @@
-var scoreboard = [];
-wide = [];
-function update_scoreboard() {
-	var table = "";
-	for (i = 0; i < parseInt((scoreboard.length - 1) / 6 + 1); i++) {
-		table = table + "<tr>";
-		table += "<td>" + (i + 1).toString() + "</td>";
-		table +=
-			"<td>" + scoreboard.slice(6 * i, 6 * (i + 1)).join(" - ") + "</td>";
-		table = table + "</tr>";
-	}
-	$("#scoreboard").html("<tr><th>Over</th><th>Score</th></tr>" + table);
-}
-
+var scoreboard = [[], [0]]; //scoreboard[<over_no>][0] counts wide runs
+var ball_no = 1; // Ball number will start from 1
+var over_no = 1; // Over number will start from 1
+var runs = 0;
+var edited = [];
 $(document).ready(function () {
 	$("#run_dot").on("click", function (event) {
-		ball("D", 0);
+		play_ball("D", 0);
 	});
 	$("#run_1").on("click", function (event) {
-		ball(1);
+		play_ball(1);
 	});
 	$("#run_2").on("click", function (event) {
-		ball(2);
+		play_ball(2);
 	});
 	$("#run_3").on("click", function (event) {
-		ball(3);
+		play_ball(3);
 	});
 	$("#run_wide").on("click", function (event) {
-		ball("+", 0);
+		play_ball("+", 0);
 	});
 	$("#run_4").on("click", function (event) {
-		ball(4);
+		play_ball(4);
 	});
 	$("#run_6").on("click", function (event) {
-		ball(6);
+		play_ball(6);
 	});
 	$("#run_W").on("click", function (event) {
-		ball("W", 0);
+		play_ball("W", 0);
 	});
 	$("#scoreboard-btn").on("click", function (event) {
 		update_scoreboard();
 	});
-
-	function ball(run, score = 1) {
-		if (run == "+") {
-			$("#run").html(parseInt($("#run").html()) + 1);
-			return;
-		}
-		if(score==1)
-			$("#run").html(parseInt($("#run").html()) + run);
-		scoreboard.push(run);
-		update_runboard(run);
-	}
-
-	function update_runboard(run = -1) {
-		// Does everything relating to the number of balls
-		// Updates the last six balls' score and the overs beside the run
-		var over_no = parseInt((scoreboard.length - 1) / 6);
-		var ball_no = parseInt((scoreboard.length - 1) % 6);
-		console.log("over_no=", over_no, "| ball_no=", ball_no);
-		console.log("scoreboard: ", scoreboard);
-		$("#ball_no_" + ball_no.toString()).html(run);
-		if (ball_no != 0) {
-			$("#ball_no_" + ball_no.toString()).removeClass("btn-light");
-			$("#ball_no_" + ball_no.toString()).addClass("btn-primary");
-		} else {
-			for (i = 1; i < 6; i++) {
-				$("#ball_no_" + i.toString()).removeClass("btn-primary");
-				$("#ball_no_" + i.toString()).addClass("btn-light");
-			}
-		}
-		$("#over-ball").html(
-			(parseInt(scoreboard.length / 6) + (scoreboard.length % 6) / 10).toFixed(
-				1
-			)
-		);
-	}
 });
+
+function play_ball(run, score = 1) {
+	if (run == "+") {
+		//Wide ball
+		runs++;
+		scoreboard[over_no][0] += 1;
+		return;
+	}
+	if (score == 1) {
+		runs += run;
+	}
+	console.log("over_no=", over_no, "| ball_no=", ball_no," |Runs=",runs);
+	scoreboard[over_no][ball_no] = run;
+	console.log(scoreboard[over_no])
+	update_runboard();
+	ball_no++;
+	if (ball_no >= 7) {
+		ball_no = 1;
+		over_no++;
+		scoreboard[over_no] = [];
+		scoreboard[over_no][0] = 0; //Wide bowls counter
+	}
+	update_score();
+}
+
+function update_runboard() {
+	// Updates the runboard when the function is called
+	$("#ball_no_" + ball_no.toString()).html(scoreboard[over_no][ball_no]);
+	if (ball_no != 1) {
+		$("#ball_no_" + ball_no.toString()).removeClass("btn-light");
+		$("#ball_no_" + ball_no.toString()).addClass("btn-primary");
+	} else {
+		for (i = 2; i <= 6; i++) {
+			$("#ball_no_" + i.toString()).removeClass("btn-primary");
+			$("#ball_no_" + i.toString()).addClass("btn-light");
+		}
+	}
+	$("#over-ball").html((over_no-1).toString() + "." + ball_no.toString());
+}
 
 function change_score() {
 	let over = parseInt($("#change_over").val());
 	let ball = parseInt($("#change_ball").val());
 	let run = parseInt($("#change_run").val());
-	scoreboard[(over - 1) * 6 + (ball - 1)] = run;
+	edited.push([over,ball,scoreboard[over][ball],run]);
+	scoreboard[over][ball] = run;
+	update_score();
 	update_scoreboard();
+	$("#run").html(runs);
+	let edited_scores = "Edited scores:<br>";
+	for(i=0; i<edited.length;i++){
+		edited_scores += "("+edited[i][0].toString()+"."+edited[i][1].toString()+") = " + edited[i][2].toString() + " -> " + edited[i][3].toString();
+		edited_scores += "<br>";
+	}
+	// }
+	$("#edited-scores").html(edited_scores);
 }
 
-/*
-$("p:first").addClass("intro");
-removeClass()
-  element.classList.add("mystyle");
-*/
+function update_scoreboard() {
+	// Updates the table in the modal which appears when the scoreboard button is pressed.
+	var table = "";
+	for (i = 1; i <= over_no; i++) {
+		table = table + "<tr>";
+		table += "<td>" + i.toString() + "</td>";
+		table +=
+			"<td>" +
+			scoreboard[i].slice(1, 7).join(" - ") +
+			" (" +
+			scoreboard[i][0].toString() +
+			")" +
+			"</td>";
+		table = table + "</tr>";
+	}
+	$("#scoreboard").html("<tr><th>Over</th><th>Score (Wide)</th></tr>" + table);
+}
+
+function update_score() {
+	let score = 0;
+	for (i = 1; i <= over_no; i++) {
+		let numOr0 = (n) => (isNaN(n) ? 0 : n);
+		score += scoreboard[i].reduce((a, b) => numOr0(a) + numOr0(b));
+	}
+	runs = score;
+	$("#run").html(runs);
+}
+
+function back_button(){
+	ball_no--;
+	if(ball_no==0){
+		ball_no = 6;
+		over_no--;
+	}
+}

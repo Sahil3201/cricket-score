@@ -1,11 +1,31 @@
 html,
-body {
+body,
+.container {
 	margin: 0px;
 	height: 100%;
+	max-width: 100%;
 }
 
-button {
-	width: 33%;
+.col-custom {
+	width: 100%;
+}
+@media only screen and (min-width: 768px) {
+	/* For desktops: */
+	.col-custom {
+		width: 50%;
+		float: left;
+		padding: 15px;
+	}
+	.centerDiv {
+		height: 100%;
+		width: 50%;
+		/* position: absolute; */
+		/* float: right; */
+		top: 50%;
+		bottom: 0;
+		max-width: 100%;
+		max-height: 100%;
+	}
 }
 
 .center {
@@ -20,18 +40,25 @@ button {
 	width: 100%;
 }
 
-/* table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
+.btn-custom-lg {
+	height: 4.5em;
+}
+.btn-custom-sm {
+	height: 3em;
+}
+table {
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
 }
 
-td, th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
+td,
+th {
+	border: 1px solid #dddddd;
+	text-align: left;
+	padding: 8px;
 }
 
 tr:nth-child(even) {
-  background-color: #dddddd;
-} */
+	background-color: #dddddd;
+}
