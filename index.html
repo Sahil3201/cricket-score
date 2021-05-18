@@ -18,13 +18,12 @@
     <!-- <div class="p-5 mb-4 bg-light rounded-3">
       <div class="container-fluid py-5"> -->
     <!-- <h1><span><input type="number" name="run" autocomplete="off" checked value="0"></span></h1> -->
-    <h5>Score:</h5>
-    <h1 style="text-align:center;">
-      <span contentEditable="true" id="run" style="font-size:35vw;;">0</span>
-      <span contentEditable="true" id="over-ball" style="font-size: 10vw;">0</span>
+    <h1 style="text-align:center;"><span style="vertical-align:0.7em; font-size: small;">Score: </span>
+      <span contentEditable="false" id="run" style="font-size:35vw;;">0</span>
+      <span id="over-ball" style="font-size: 10vw;">0</span>
     </h1>
     <!-- </div></div> -->
-    <br><br>
+    <!-- <br><br> -->
 
     <div class="position-relative m-4">
       <div class="progress" style="height: 1px;">
@@ -63,17 +62,25 @@
           <button class="btn btn-outline-primary btn-lg" style="display: inline-block; width: 100%; height:4.5em;"
             id="run_2">2</button>
         </div>
+        <div class="col-6 my-auto zoom mb-2 px-1 run-btn">
+          <button class="btn btn-outline-primary btn-lg" style="display: inline-block; width: 100%; height:3.5em;"
+            id="run_3">3</button>
+        </div>
+        <div class="col-6 my-auto zoom mb-2 px-1 run-btn">
+          <button class="btn btn-outline-primary btn-lg" style="display: inline-block; width: 100%; height:3.5em;"
+            id="run_wide">Wide</button>
+        </div>
         <div class="col-4 my-auto zoom pb-1 px-1 run-btn">
           <button class="btn btn-outline-primary" style="display: inline-block; width: 100%; height:3em;"
             id="run_4">4</button>
         </div>
         <div class="col-4 my-auto zoom pb-1 px-1 run-btn">
-          <button class="btn btn-outline-primary" style="display: inline-block; width: 100%; height:3em;" id="run_6"
+          <button class="btn btn-outline-primary" style="display: inline-block; width: 100%; height:3em;"
             id="run_6">6</button>
         </div>
         <div class="col-4 my-auto zoom pb-1 px-1 run-btn">
           <button class="btn btn-outline-primary" style="display: inline-block; width: 100%; height:3em;"
-            id="run_W">W</button>
+            id="run_W">Wicket</button>
         </div>
       </div>
     </div>
@@ -96,6 +103,25 @@
           <div class="modal-body">
             <table class="table table-striped" id="scoreboard">
             </table>
+            <!-- <div class="input-group input-group-sm mb-3">
+              <span class="input-group-text" id="change-over">Over</span>
+              <input type="text" class="form-control">
+            </div>
+            <div class="input-group input-group-sm mb-3">
+              <span class="input-group-text" id="change-over">Ball</span>
+              <input type="text" class="form-control">
+            </div>
+            <div class="input-group input-group-sm mb-3">
+              <span class="input-group-text" id="change-over">Score</span>
+              <input type="text" class="form-control">
+            </div> -->
+            <div class="input-group">
+              <!-- <span class="input-group-text">First and last name</span> -->
+              <input type="text" placeholder="Over" class="form-control" id="change_over">
+              <input type="text" placeholder="Ball" class="form-control" id="change_ball">
+              <input type="text" placeholder="Runs" class="form-control" id="change_run">
+              <button class="btn btn-sm btn-primary" onclick="change_score()">Change score</button>
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -104,6 +130,8 @@
 
       </div>
     </div>
+    <!-- <button class="btn btn-primary">Back</button> -->
+
   </div>
 
 
