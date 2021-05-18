@@ -13,7 +13,7 @@
     integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 </head>
 
-<body>
+<body style="background-color:snow;">
   <div class="container">
 
     <!-- <div class="p-5 mb-4 bg-light rounded-3">
@@ -81,8 +81,8 @@
 
     <!-- Trigger the modal with a button -->
     <div style="text-align: center;">
-    <button type="button" class="btn btn-info btn-lg mt-2" data-toggle="modal" data-target="#myModal"
-      id="scoreboard-btn">Scoreboard</button>
+      <button type="button" class="btn btn-info btn-lg mt-2" data-toggle="modal" data-target="#myModal"
+        id="scoreboard-btn">Scoreboard</button>
     </div>
     <!-- Modal -->
     <div class="modal fade" id="myModal" role="dialog">
@@ -95,7 +95,8 @@
             <h4 class="modal-title">Scoreboard</h4>
           </div>
           <div class="modal-body">
-            <span id="scoreboard"></span>
+            <table class="table table-striped" id="scoreboard">
+            </table>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

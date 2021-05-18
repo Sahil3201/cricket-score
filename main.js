@@ -20,9 +20,15 @@ $(document).ready(function () {
 	});
     
 	$("#scoreboard-btn").on("click", function (event) {
-        $("#scoreboard").html(scoreboard.toString());        
+		var table = "";
+		for(i=0; i<parseInt((scoreboard.length - 1) / 6+1);i++){
+			table = table+"<tr>";
+			table += "<td>"+(i+1).toString()+"</td>";
+			table += "<td>"+scoreboard.slice(6*(i),6*(i+1)).join(" - ")+"</td>";
+			table = table+"</tr>";
+		}
+        $("#scoreboard").html("<tr><th>Over</th><th>Score</th></tr>"+table);
 	});
-
 
 	function ball(run, score = 1) {
 		if (score == 1) {
