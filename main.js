@@ -38,6 +38,7 @@ function play_ball(run, score = 1) {
 		//Wide ball
 		runs++;
 		scoreboard[over_no][0] += 1;
+		update_score();
 		return;
 	}
 	if (score == 1) {
@@ -111,7 +112,7 @@ function update_scoreboard() {
 function update_score() {
 	let score = 0;
 	for (i = 1; i <= over_no; i++) {
-		let numOr0 = (n) => (isNaN(n) ? 0 : n);
+		let numOr0 = (n) => (n=="W"?1:isNaN(n) ? 0 : n);
 		score += scoreboard[i].reduce((a, b) => numOr0(a) + numOr0(b));
 	}
 	runs = score;
