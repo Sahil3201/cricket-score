@@ -60,7 +60,10 @@ function play_ball(run, score = 1) {
 
 function update_runboard() {
 	// Updates the runboard when the function is called
-	$("#ball_no_" + ball_no.toString()).html(scoreboard[over_no][ball_no]);
+	for(i=1;i<7;i++){
+		let score_und = (_score_und)=>_score_und==undefined?"":_score_und;
+		$("#ball_no_" + i.toString()).html(score_und(scoreboard[over_no][i]));
+	}
 	if (ball_no != 1) {
 		$("#ball_no_" + ball_no.toString()).removeClass("btn-light");
 		$("#ball_no_" + ball_no.toString()).addClass("btn-primary");
