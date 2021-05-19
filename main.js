@@ -112,7 +112,7 @@ function update_scoreboard() {
 function update_score() {
 	let score = 0;
 	for (i = 1; i <= over_no; i++) {
-		let numOr0 = (n) => (n=="+"?1:isNaN(n) ? 0 : n);
+		let numOr0 = (n) => (n=="W"?1:isNaN(n) ? 0 : n);
 		score += scoreboard[i].reduce((a, b) => numOr0(a) + numOr0(b));
 	}
 	runs = score;
@@ -125,4 +125,9 @@ function back_button(){
 		ball_no = 6;
 		over_no--;
 	}
+	scoreboard[over_no][ball_no] = undefined;
+	update_score();
+	update_scoreboard();
+	$("#over-ball").html((over_no-1).toString() + "." + (ball_no-1).toString());
+	update_runboard();
 }
