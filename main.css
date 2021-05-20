@@ -2,30 +2,40 @@ html,
 body,
 .container {
 	margin: 0px;
-	height: 100%;
 	max-width: 100%;
 }
 
-.col-custom {
+.col-left-custom,
+.col-left-custom {
 	width: 100%;
 }
+.over-ball-style {
+	width: 2rem;
+	height: 2rem;
+}
+
+
 @media only screen and (orientation: landscape) {
 	/* For desktops: */
-	.col-custom {
-		width: 50%;
+	.col-left-custom {
+		width: 60%;
 		float: left;
 		padding: 15px;
 	}
-	.centerDiv {
-		height: 100%;
-		width: 50%;
-		/* position: absolute; */
-		/* float: right; */
-		top: 50%;
-		bottom: 0;
-		max-width: 100%;
-		max-height: 100%;
+	.col-right-custom {
+		width: 40%;
+		height: 100vh;
+		float: left;
+		padding: 15px;
 	}
+	/* .over-ball-style {
+		width: 2em;
+		height: 2em;
+		font-size: 2em;
+	}
+	.runboard-row-1{
+		margin-bottom: 2em;
+	} */
 }
 
 .center {
@@ -62,3 +72,4 @@ th {
 tr:nth-child(even) {
 	background-color: #dddddd;
 }
+

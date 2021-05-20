@@ -4,6 +4,11 @@ var over_no = 1; // Over number will start from 1
 var runs = 0;
 var edited = [];
 $(document).ready(function () {
+	// window.onresize = function(event) {
+	// 	vpw = $(window).width();
+	// 	vph = $(window).height();
+	// 	$(".container").css('height', vph + 'px');
+	// 	}
 	$("#run_dot").on("click", function (event) {
 		play_ball("D", 0);
 	});
