@@ -18,12 +18,12 @@ body,
 @media only screen and (orientation: landscape) {
 	/* For desktops: */
 	.col-left-custom {
-		width: 60%;
+		width: 70%;
 		float: left;
 		padding: 15px;
 	}
 	.col-right-custom {
-		width: 40%;
+		width: 30%;
 		height: 100vh;
 		float: left;
 		padding: 15px;

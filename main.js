@@ -66,11 +66,11 @@ function play_ball(run, score = 1) {
 
 	if (isNoBall) {
 		scoreboard[over_no][0] += run;
-		update_score();
 		isNoBall = false;
 	} else {
 		scoreboard[over_no][ball_no] = run;
-		// console.log(scoreboard[over_no])
+		// console.log(scoreboard[over_no]);
+		// console.log(scoreboard);
 		update_runboard();
 		ball_no++;
 		if (ball_no >= 7) {
@@ -142,17 +142,26 @@ function update_scoreboard() {
 			"</td>";
 		table = table + "</tr>";
 	}
-	$("#scoreboard").html("<tr><th>Over</th><th>Score (Extras)</th></tr>" + table);
+	$("#scoreboard").html(
+		"<tr><th>Over</th><th>Score (Extras)</th></tr>" + table
+	);
 }
 
 function update_score() {
 	let score = 0;
+	let wickets = 0;
+
 	for (i = 1; i <= over_no; i++) {
 		let numOr0 = (n) => (n == "+" ? 1 : isNaN(n) ? 0 : n);
 		score += scoreboard[i].reduce((a, b) => numOr0(a) + numOr0(b));
+		scoreboard[i].forEach((element) => {
+			if (element == "W") wickets++;
+		});
 	}
+	// console.log(wickets);
 	runs = score;
 	$("#run").html(runs);
+	$("#wickets").html(wickets);
 }
 
 function back_button() {

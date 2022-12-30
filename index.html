@@ -24,7 +24,9 @@
     <div class="col-left-custom">
       <h6 style="text-align:center;">
         <!-- <span style="vertical-align:0.7em; font-size: small;">Score: </span> -->
-        <span contentEditable="false" id="run" style="font-size:35vw; line-height: 80%;">0</span>
+        <span contentEditable="false" id="run" style="font-size:30vw; line-height: 80%;">0</span>
+        <span contentEditable="false" style="font-size:25vw; line-height: 80%;">/</span>
+        <span contentEditable="false" id="wickets" style="font-size:30vw; line-height: 80%;">0</span>
         <span id="over-ball" style="font-size: 10vw; line-height: 200%">0</span>
       </h6>
       <!-- </div></div> -->
@@ -90,12 +92,13 @@
         <div class="col-4 my-auto zoom pb-1 px-1 run-btn">
           <button class="btn btn-outline-primary btn-custom btn-custom-sm" id="run_W">Wicket</button>
         </div>
-        <div class="col-5 my-auto zoom py-1 px-1 run-btn">
+
+        <div class="col-5 my-auto zoom py-4 px-1 run-btn">
           <button type="button" class="btn btn-info btn-custom btn-custom-sm" data-toggle="modal" data-target="#myModal"
             id="scoreboard-btn">Scoreboard</button>
         </div>
-        <div class="col-2 my-auto zoom py-2 px-1 run-btn"></div>
-        <div class="col-5 my-auto zoom py-2 px-1 run-btn">
+        <div class="col-2 my-auto zoom py-4 px-1 run-btn"></div>
+        <div class="col-5 my-auto zoom py-4 px-1 run-btn">
           <button class="btn btn-primary btn-custom btn-custom-sm" onclick="back_button()">Back</button>
         </div>
       </div>
