@@ -142,7 +142,7 @@ function update_scoreboard() {
 			"</td>";
 		table = table + "</tr>";
 	}
-	$("#scoreboard").html("<tr><th>Over</th><th>Score (Wide)</th></tr>" + table);
+	$("#scoreboard").html("<tr><th>Over</th><th>Score (Extras)</th></tr>" + table);
 }
 
 function update_score() {
