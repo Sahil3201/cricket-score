@@ -18,9 +18,7 @@
 <body style="background-color:#e5f3ff;">
   <div class="container">
 
-    <!-- <div class="p-5 mb-4 bg-light rounded-3">
-      <div class="container-fluid py-5"> -->
-    <!-- <h1><span><input type="number" name="run" autocomplete="off" checked value="0"></span></h1> -->
+    <!-- This is the scores on the topmost part of the screen -->
     <div class="col-left-custom">
       <h6 style="text-align:center;">
         <!-- <span style="vertical-align:0.7em; font-size: small;">Score: </span> -->
@@ -29,15 +27,15 @@
         <span contentEditable="false" id="wickets" style="font-size:30vw; line-height: 80%;">0</span>
         <span id="over-ball" style="font-size: 10vw; line-height: 200%">0</span>
       </h6>
-      <!-- </div></div> -->
-      <!-- <br><br> -->
     </div>
+    <!-- END: This is the scores on the topmost part of the screen -->
 
+    <!-- These are the action buttons and runboard -->
     <div class="col-right-custom">
       <div class="position-relative m-4">
         <div class="progress" style="height: 1px;">
           <div class="progress-bar" role="progressbar" style="width: 0%;"></div>
-        </div class="">
+        </div>
         <button type="button"
           class="position-absolute top-0 start-0 translate-middle btn btn-sm btn-primary rounded-pill over-ball-style"
           id="ball_no_1"></button>
@@ -62,6 +60,8 @@
           class="position-absolute top-0 start-100 translate-middle btn btn-sm btn-light rounded-pill over-ball-style"
           id="ball_no_6"></button>
       </div>
+
+
       <div class="row no-gutters">
         <div class="col-4 my-auto zoom mb-2 px-1 run-btn">
           <button class="btn btn-outline-primary btn-lg btn-custom btn-custom-lg" id="run_dot">Dot</button>
@@ -99,12 +99,12 @@
         </div>
         <div class="col-2 my-auto zoom py-4 px-1 run-btn"></div>
         <div class="col-5 my-auto zoom py-4 px-1 run-btn">
-          <button class="btn btn-primary btn-custom btn-custom-sm" onclick="back_button()">Back</button>
+          <button type="button" class="btn btn-danger btn-custom btn-custom-sm" data-toggle="modal"
+            data-target="#myModal2" id="scoreboard-btn">Undo</button>
         </div>
       </div>
-
-      <!-- Trigger the modal with a button -->
     </div>
+    <!-- These are the action buttons -->
 
     <!-- Modal -->
     <div class="modal fade" id="myModal" role="dialog">
@@ -145,6 +145,28 @@
           </div>
         </div>
 
+      </div>
+    </div>
+
+    <!-- Modal 2 -->
+    <div class="modal fade" id="myModal2" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Undo last action?</h4>
+            <button type="button" class="btn close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            Extras (Wide and No ball) cannot be undone.
+            <button class="btn btn-danger btn-custom btn-custom-sm" onclick="back_button()"
+              data-dismiss="modal">Undo</button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

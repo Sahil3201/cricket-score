@@ -52,7 +52,8 @@ function play_ball(run, score = 1) {
 		return;
 	}
 	if (run == "NB") {
-		isNoBall = true;
+		// isNoBall = true;
+		noBall(true);
 		//No ball
 		runs++;
 		scoreboard[over_no][0] += 1;
@@ -66,7 +67,8 @@ function play_ball(run, score = 1) {
 
 	if (isNoBall) {
 		scoreboard[over_no][0] += run;
-		isNoBall = false;
+		// isNoBall = false;
+		noBall(false);
 	} else {
 		scoreboard[over_no][ball_no] = run;
 		// console.log(scoreboard[over_no]);
@@ -165,6 +167,7 @@ function update_score() {
 }
 
 function back_button() {
+	if (over_no == 1 && ball_no == 1) return;
 	ball_no--;
 	if (ball_no == 0) {
 		ball_no = 6;
@@ -177,4 +180,17 @@ function back_button() {
 	$("#over-ball").html(
 		(over_no - 1).toString() + "." + (ball_no - 1).toString()
 	);
+}
+
+function noBall(is_NoBall) {
+	isNoBall = is_NoBall;
+	if (is_NoBall) {
+		document.getElementById("run_wide").disabled = true;
+		document.getElementById("run_no_ball").disabled = true;
+		document.getElementById("run_W").disabled = true;
+	} else {
+		document.getElementById("run_wide").disabled = false;
+		document.getElementById("run_no_ball").disabled = false;
+		document.getElementById("run_W").disabled = false;
+	}
 }
