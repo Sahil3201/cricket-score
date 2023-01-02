@@ -4,6 +4,9 @@ var over_no = 1; // Over number will start from 1
 var runs = 0;
 var edited = [];
 var isNoBall = false;
+var isTargetMode = false;
+var targetRuns = -1; // total runs scored by other team
+var targetOvers = -1; //total overs
 
 $(document).ready(function () {
 	// window.onresize = function(event) {
@@ -100,7 +103,11 @@ function update_runboard() {
 			$("#ball_no_" + i.toString()).addClass("btn-light");
 		}
 	}
-	$("#over-ball").html((ball_no==6?over_no:over_no - 1).toString() + "." + (ball_no==6?0:ball_no).toString());
+	$("#over-ball").html(
+		(ball_no == 6 ? over_no : over_no - 1).toString() +
+			"." +
+			(ball_no == 6 ? 0 : ball_no).toString()
+	);
 }
 
 function change_score() {
@@ -162,6 +169,7 @@ function update_score() {
 	}
 	// console.log(wickets);
 	runs = score;
+	updateTarget();
 	$("#run").html(runs);
 	$("#wickets").html(wickets);
 }
@@ -192,5 +200,50 @@ function noBall(is_NoBall) {
 		document.getElementById("run_wide").disabled = false;
 		document.getElementById("run_no_ball").disabled = false;
 		document.getElementById("run_W").disabled = false;
+	}
+}
+
+function setTarget(isTargetModeOn = true) {
+	isTargetMode = isTargetModeOn;
+	if (!isTargetModeOn) {
+		$("#targetBoard").hide();
+		$("#targetModeButton").show();
+		return;
+	}
+	targetRuns = parseInt($("#targetRuns").val());
+	targetOvers = parseInt($("#targetOvers").val());
+	updateTarget();
+	$("#targetBoard").show(2500);
+	$("#targetModeButton").hide();
+}
+
+function updateTarget() {
+	if (!isTargetMode) return;
+	$("#targetRunsRequired").html(targetRuns - runs);
+	let ballsLeft = targetOvers * 6 - ((over_no - 1) * 6 + ball_no - 1);
+	$("#targetOversLeft").html(ballsLeft);
+
+	if (ballsLeft == 0) {
+		let closeButton =
+			'&nbsp;&nbsp;<button type="button" class="btn-close" onClick="setTarget(false)"></button>';
+		if (targetRuns < runs) {
+			$("#targetBoard").html(
+				"Hurray! The batting team has Won!!" + closeButton
+			);
+		} else if (targetRuns - 1 == runs) {
+			$("#targetBoard").html("Match Over! It's a tie." + closeButton);
+		} else {
+			$("#targetBoard").html(
+				"Hurray! The bowling team has Won!!" + closeButton
+			);
+		}
+		$("#targetModeButton").show();
+	}
+	if (targetRuns <= runs) {
+		$("#targetBoard").html(
+			"Hurray! The batting team has Won!!" +
+				'&nbsp;&nbsp;<button type="button" class="btn-close" onClick="setTarget(false)"></button>'
+		);
+		$("#targetModeButton").show();
 	}
 }
