@@ -100,7 +100,7 @@ function update_runboard() {
 			$("#ball_no_" + i.toString()).addClass("btn-light");
 		}
 	}
-	$("#over-ball").html((over_no - 1).toString() + "." + ball_no.toString());
+	$("#over-ball").html((ball_no==6?over_no:over_no - 1).toString() + "." + (ball_no==6?0:ball_no).toString());
 }
 
 function change_score() {
