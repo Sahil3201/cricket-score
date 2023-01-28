@@ -69,7 +69,7 @@ function play_ball(run, score = 1) {
 	// console.log("over_no=", over_no, "| ball_no=", ball_no," |Runs=",runs);
 
 	if (isNoBall) {
-		scoreboard[over_no][0] += run;
+		scoreboard[over_no][0] += run == "D" ? 0 : run;
 		// isNoBall = false;
 		noBall(false);
 	} else {
@@ -192,14 +192,21 @@ function back_button() {
 
 function noBall(is_NoBall) {
 	isNoBall = is_NoBall;
+	var run_no_ball = document.getElementById("run_no_ball");
 	if (is_NoBall) {
 		document.getElementById("run_wide").disabled = true;
 		document.getElementById("run_no_ball").disabled = true;
 		document.getElementById("run_W").disabled = true;
+
+		run_no_ball.style.backgroundColor = "#0D6EFD";
+		run_no_ball.style.color = "#ffffff";
 	} else {
 		document.getElementById("run_wide").disabled = false;
 		document.getElementById("run_no_ball").disabled = false;
 		document.getElementById("run_W").disabled = false;
+		
+		run_no_ball.style.backgroundColor = "#e5f3ff";
+		run_no_ball.style.color = "#0D6EFD";
 	}
 }
 
