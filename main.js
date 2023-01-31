@@ -7,13 +7,9 @@ var isNoBall = false;
 var isTargetMode = false;
 var targetRuns = -1; // total runs scored by other team
 var targetOvers = -1; //total overs
+var isShareMode = false;
 
 $(document).ready(function () {
-	// window.onresize = function(event) {
-	// 	vpw = $(window).width();
-	// 	vph = $(window).height();
-	// 	$(".container").css('height', vph + 'px');
-	// 	}
 	$("#run_dot").on("click", function (event) {
 		play_ball("D", 0);
 	});
@@ -44,7 +40,25 @@ $(document).ready(function () {
 	$("#scoreboard-btn").on("click", function (event) {
 		update_scoreboard();
 	});
+	init();
 });
+
+function init() {
+	const urlParams = new URLSearchParams(window.location.search);
+	console.log("urlParams.get()");
+	console.log(urlParams.get("debug"));
+	if (urlParams.get("debug") == null || urlParams.get("debug") != "true")
+		$("#messages").hide();
+	// const queryString = window.location.search;
+	// const urlParams = new URLSearchParams(queryString);
+	// console.log(urlParams.get("matchCode"));
+	// console.log(document.location.origin);
+}
+
+function shareModeStart() {
+	isShareMode = true;
+	startConnect();
+}
 
 function play_ball(run, score = 1) {
 	if (run == "+") {
@@ -86,13 +100,14 @@ function play_ball(run, score = 1) {
 		}
 	}
 	update_score();
+	update_scoreboard();
 }
 
 function update_runboard() {
 	// Updates the runboard when the function is called
 	for (i = 1; i < 7; i++) {
 		let score_und = (_score_und) => (_score_und == undefined ? "" : _score_und);
-		$("#ball_no_" + i.toString()).html(score_und(scoreboard[over_no][i]));
+		updateHtml("#ball_no_" + i.toString(), score_und(scoreboard[over_no][i]));
 	}
 	if (ball_no != 1) {
 		$("#ball_no_" + ball_no.toString()).removeClass("btn-light");
@@ -103,7 +118,8 @@ function update_runboard() {
 			$("#ball_no_" + i.toString()).addClass("btn-light");
 		}
 	}
-	$("#over-ball").html(
+	updateHtml(
+		"#over-ball",
 		(ball_no == 6 ? over_no : over_no - 1).toString() +
 			"." +
 			(ball_no == 6 ? 0 : ball_no).toString()
@@ -118,7 +134,7 @@ function change_score() {
 	scoreboard[over][ball] = run;
 	update_score();
 	update_scoreboard();
-	$("#run").html(runs);
+	updateHtml("#run", runs);
 	let edited_scores = "Edited scores:<br>";
 	for (i = 0; i < edited.length; i++) {
 		edited_scores +=
@@ -133,7 +149,7 @@ function change_score() {
 		edited_scores += "<br>";
 	}
 	// }
-	$("#edited-scores").html(edited_scores);
+	updateHtml("#edited-scores", edited_scores);
 }
 
 function update_scoreboard() {
@@ -151,7 +167,8 @@ function update_scoreboard() {
 			"</td>";
 		table = table + "</tr>";
 	}
-	$("#scoreboard").html(
+	updateHtml(
+		"#scoreboard",
 		"<tr><th>Over</th><th>Score (Extras)</th></tr>" + table
 	);
 }
@@ -170,8 +187,8 @@ function update_score() {
 	// console.log(wickets);
 	runs = score;
 	updateTarget();
-	$("#run").html(runs);
-	$("#wickets").html(wickets);
+	updateHtml("#run", runs);
+	updateHtml("#wickets", wickets);
 }
 
 function back_button() {
@@ -185,28 +202,29 @@ function back_button() {
 	update_score();
 	update_scoreboard();
 	update_runboard();
-	$("#over-ball").html(
+	updateHtml(
+		"#over-ball",
 		(over_no - 1).toString() + "." + (ball_no - 1).toString()
 	);
 }
 
 function noBall(is_NoBall) {
 	isNoBall = is_NoBall;
-	var run_no_ball = document.getElementById("run_no_ball");
+	var run_no_ball = $("#run_no_ball");
 	if (is_NoBall) {
-		document.getElementById("run_wide").disabled = true;
-		document.getElementById("run_no_ball").disabled = true;
-		document.getElementById("run_W").disabled = true;
+		$("#run_wide").prop("disabled", true);
+		$("#run_no_ball").prop("disabled", true);
+		$("#run_W").prop("disabled", true);
 
-		run_no_ball.style.backgroundColor = "#0D6EFD";
-		run_no_ball.style.color = "#ffffff";
+		run_no_ball.css("backgroundColor", "#0D6EFD");
+		run_no_ball.css("color", "#ffffff");
 	} else {
-		document.getElementById("run_wide").disabled = false;
-		document.getElementById("run_no_ball").disabled = false;
-		document.getElementById("run_W").disabled = false;
-		
-		run_no_ball.style.backgroundColor = "#e5f3ff";
-		run_no_ball.style.color = "#0D6EFD";
+		$("#run_wide").prop("disabled", false);
+		$("#run_no_ball").prop("disabled", false);
+		$("#run_W").prop("disabled", false);
+
+		run_no_ball.css("backgroundColor", "#e5f3ff");
+		run_no_ball.css("color", "#0D6EFD");
 	}
 }
 
@@ -215,42 +233,99 @@ function setTarget(isTargetModeOn = true) {
 	if (!isTargetModeOn) {
 		$("#targetBoard").hide();
 		$("#targetModeButton").show();
-		return;
+	} else {
+		targetRuns = parseInt($("#targetRuns").val());
+		targetOvers = parseInt($("#targetOvers").val());
+		updateTarget();
+		$("#targetBoard").show(2500);
+		$("#targetModeButton").hide();
 	}
-	targetRuns = parseInt($("#targetRuns").val());
-	targetOvers = parseInt($("#targetOvers").val());
-	updateTarget();
-	$("#targetBoard").show(2500);
-	$("#targetModeButton").hide();
+	publishMessage(
+		JSON.stringify({
+			isTargetMode: isTargetMode,
+		})
+	);
 }
 
 function updateTarget() {
 	if (!isTargetMode) return;
-	$("#targetRunsRequired").html(targetRuns - runs);
+	updateHtml("#targetRunsRequired", targetRuns - runs);
 	let ballsLeft = targetOvers * 6 - ((over_no - 1) * 6 + ball_no - 1);
-	$("#targetOversLeft").html(ballsLeft);
+	updateHtml("#targetOversLeft", ballsLeft);
 
+	let closeButton =
+		'&nbsp;&nbsp;<button type="button" class="btn-close" onClick="setTarget(false)"></button>';
 	if (ballsLeft == 0) {
-		let closeButton =
-			'&nbsp;&nbsp;<button type="button" class="btn-close" onClick="setTarget(false)"></button>';
 		if (targetRuns < runs) {
-			$("#targetBoard").html(
+			updateHtml(
+				"#targetBody",
 				"Hurray! The batting team has Won!!" + closeButton
 			);
 		} else if (targetRuns - 1 == runs) {
-			$("#targetBoard").html("Match Over! It's a tie." + closeButton);
+			updateHtml("#targetBody", "Match Over! It's a tie." + closeButton);
 		} else {
-			$("#targetBoard").html(
+			updateHtml(
+				"#targetBody",
 				"Hurray! The bowling team has Won!!" + closeButton
 			);
 		}
 		$("#targetModeButton").show();
 	}
 	if (targetRuns <= runs) {
-		$("#targetBoard").html(
-			"Hurray! The batting team has Won!!" +
-				'&nbsp;&nbsp;<button type="button" class="btn-close" onClick="setTarget(false)"></button>'
+		updateHtml(
+			"#targetBody",
+			"Hurray! The batting team has Won!!" + closeButton
 		);
 		$("#targetModeButton").show();
 	}
+}
+
+function updateHtml(eleId, newHtml) {
+	/// eleId is in the form of "#overs"
+	let isSame = $(eleId).html() == newHtml;
+	$(eleId).html(newHtml);
+
+	if (isShareMode && !isSame)
+		publishMessage(
+			JSON.stringify({
+				update: { eleId: eleId, newHtml: newHtml },
+			})
+		);
+	// publishMessage(
+	// 	JSON.stringify({
+	// 		scoreboard: scoreboard,
+	// 		ball_no: ball_no,
+	// 		over_no: over_no,
+	// 		runs: runs,
+	// 		edited: edited,
+	// 		isNoBall: isNoBall,
+	// 		isTargetMode: isTargetMode,
+	// 		targetRuns: targetRuns,
+	// 		targetOvers: targetOvers,
+	// 	})
+	// );
+}
+
+function sendInitVariables() {
+	let vars = {
+		"#ball_no_1": $("#ball_no_1").html(),
+		"#ball_no_2": $("#ball_no_2").html(),
+		"#ball_no_3": $("#ball_no_3").html(),
+		"#ball_no_4": $("#ball_no_4").html(),
+		"#ball_no_5": $("#ball_no_5").html(),
+		"#ball_no_6": $("#ball_no_6").html(),
+		"#over-ball": $("#over-ball").html(),
+		"#run": $("#run").html(),
+		"#edited-scores": $("#edited-scores").html(),
+		"#scoreboard": $("#scoreboard").html(),
+		"#wickets": $("#wickets").html(),
+		"#targetRunsRequired": $("#targetRunsRequired").html(),
+		"#targetBody": $("#targetBody").html(),
+	};
+	publishMessage(
+		JSON.stringify({
+			init: vars,
+			isTargetMode: isTargetMode,
+		})
+	);
 }

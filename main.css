@@ -14,7 +14,6 @@ body,
 	height: 2rem;
 }
 
-
 @media only screen and (orientation: landscape) {
 	/* For desktops: */
 	.col-left-custom {
@@ -73,3 +72,6 @@ tr:nth-child(even) {
 	background-color: #dddddd;
 }
 
+.material-symbols-outlined {
+	font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 200, "opsz" 24;
+}
