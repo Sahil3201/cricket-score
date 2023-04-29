@@ -212,6 +212,7 @@ function noBall(is_NoBall) {
 	isNoBall = is_NoBall;
 	var run_no_ball = $("#run_no_ball");
 	if (is_NoBall) {
+		$("#no-ball-warning").show();
 		$("#run_wide").prop("disabled", true);
 		$("#run_no_ball").prop("disabled", true);
 		$("#run_W").prop("disabled", true);
@@ -219,6 +220,7 @@ function noBall(is_NoBall) {
 		run_no_ball.css("backgroundColor", "#0D6EFD");
 		run_no_ball.css("color", "#ffffff");
 	} else {
+		$("#no-ball-warning").hide();
 		$("#run_wide").prop("disabled", false);
 		$("#run_no_ball").prop("disabled", false);
 		$("#run_W").prop("disabled", false);
